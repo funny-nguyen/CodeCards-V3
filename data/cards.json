@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "category": "JavaScript",
+    "question": "Was macht Array.map()?",
+    "answer": "Array.map() erstellt ein neues Array aus den Ergebnissen einer Funktion.",
+    "level": 0,
+    "correct": 0,
+    "wrong": 0,
+    "nextReview": 0
+  },
+  {
+    "id": 2,
+    "category": "CSS",
+    "question": "Was macht display:flex?",
+    "answer": "display:flex aktiviert ein flexibles Layout-System in CSS.",
+    "level": 0,
+    "correct": 0,
+    "wrong": 0,
+    "nextReview": 0
+  },
+  {
+    "id": 3,
+    "category": "HTML",
+    "question": "Wofür steht HTML?",
+    "answer": "HTML steht für HyperText Markup Language.",
+    "level": 0,
+    "correct": 0,
+    "wrong": 0,
+    "nextReview": 0
+  }
+]
