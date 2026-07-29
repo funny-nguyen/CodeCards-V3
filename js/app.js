@@ -1,180 +1,113 @@
+import { saveCards, loadCards } from "./storage.js";
+
 console.log("CodeCards V3 Lernmodus gestartet");
-
-
 
 let cards = [];
 
 let currentCardIndex = 0;
 
+const category = document.getElementById("category");
 
+const question = document.getElementById("question");
 
-const category =
-document.getElementById("category");
+const answer = document.getElementById("answer");
 
+const showAnswer = document.getElementById("showAnswer");
 
-const question =
-document.getElementById("question");
+const rating = document.getElementById("rating");
 
+async function loadCardData() {
+  const savedCards = loadCards();
 
-const answer =
-document.getElementById("answer");
+  if (savedCards) {
+    cards = savedCards;
+  } else {
+    const response = await fetch("data/cards.json");
 
+    cards = await response.json();
 
-const showAnswer =
-document.getElementById("showAnswer");
+    saveCards(cards);
+  }
 
+  shuffleCards();
 
-const rating =
-document.getElementById("rating");
-
-
-
-
-
-async function loadCards() {
-
-
-    const response =
-    await fetch("data/cards.json");
-
-
-    cards =
-    await response.json();
-
-
-
-    showCard();
-
+  showCard();
 }
 
-
-
-
+function shuffleCards() {
+  cards.sort(() => Math.random() - 0.5);
+}
 
 function showCard() {
+  const card = cards[currentCardIndex];
 
+  category.textContent = card.category;
 
-    const card =
-    cards[currentCardIndex];
+  question.textContent = card.question;
 
+  answer.textContent = card.answer;
 
+  answer.style.display = "none";
 
-    category.textContent =
-    card.category;
+  rating.style.display = "none";
 
-
-
-    question.textContent =
-    card.question;
-
-
-
-    answer.textContent =
-    card.answer;
-
-
-
-    answer.style.display =
-    "none";
-
-
-
-    rating.style.display =
-    "none";
-
-
-
-    showAnswer.style.display =
-    "inline-block";
-
+  showAnswer.style.display = "inline-block";
 }
 
+showAnswer.addEventListener("click", () => {
+  answer.style.display = "block";
 
+  rating.style.display = "block";
 
-
-
-showAnswer.addEventListener(
-    "click",
-    () => {
-
-
-        answer.style.display =
-        "block";
-
-
-        rating.style.display =
-        "block";
-
-
-        showAnswer.style.display =
-        "none";
-
-
-    }
-);
-
-
-
-
-
-document
-.querySelectorAll("#rating button")
-.forEach(button => {
-
-
-    button.addEventListener(
-        "click",
-        () => {
-
-
-            const result =
-            button.dataset.rating;
-
-
-
-            console.log(
-                "Bewertung:",
-                result
-            );
-
-
-
-            nextCard();
-
-
-        }
-    );
-
-
+  showAnswer.style.display = "none";
 });
 
+document.querySelectorAll("#rating button").forEach((button) => {
+  button.addEventListener("click", () => {
+    const result = button.dataset.rating;
 
+    updateCard(result);
 
+    nextCard();
+  });
+});
 
+function updateCard(result) {
+  const card = cards[currentCardIndex];
 
-function nextCard() {
+  if (result === "wrong") {
+    card.wrong++;
 
+    card.level = 0;
+  }
 
-    currentCardIndex++;
+  if (result === "hard") {
+    card.wrong++;
+  }
 
+  if (result === "good") {
+    card.correct++;
 
+    card.level++;
+  }
 
-    if(
-        currentCardIndex >= cards.length
-    ){
+  if (result === "easy") {
+    card.correct += 2;
 
-        currentCardIndex = 0;
+    card.level += 2;
+  }
 
-    }
-
-
-
-    showCard();
-
+  saveCards(cards);
 }
 
+function nextCard() {
+  currentCardIndex++;
 
+  if (currentCardIndex >= cards.length) {
+    currentCardIndex = 0;
+  }
 
+  showCard();
+}
 
-
-loadCards();
+loadCardData();
