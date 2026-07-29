@@ -1,10 +1,14 @@
 import { saveCards, loadCards } from "./storage.js";
 
-console.log("CodeCards V3 Lernmodus gestartet");
+import { updateCardProgress, getDueCards } from "./scheduler.js";
+
+console.log("CodeCards V3 Lernqueue gestartet");
 
 let cards = [];
 
-let currentCardIndex = 0;
+let learningQueue = [];
+
+let currentCard = null;
 
 const category = document.getElementById("category");
 
@@ -29,23 +33,37 @@ async function loadCardData() {
     saveCards(cards);
   }
 
-  shuffleCards();
+  learningQueue = getDueCards(cards);
 
-  showCard();
+  shuffleQueue();
+
+  showNextCard();
 }
 
-function shuffleCards() {
-  cards.sort(() => Math.random() - 0.5);
+function shuffleQueue() {
+  learningQueue.sort(() => Math.random() - 0.5);
 }
 
-function showCard() {
-  const card = cards[currentCardIndex];
+function showNextCard() {
+  if (learningQueue.length === 0) {
+    question.textContent = "🎉 Keine Karten fällig!";
 
-  category.textContent = card.category;
+    answer.style.display = "none";
 
-  question.textContent = card.question;
+    rating.style.display = "none";
 
-  answer.textContent = card.answer;
+    showAnswer.style.display = "none";
+
+    return;
+  }
+
+  currentCard = learningQueue.shift();
+
+  category.textContent = currentCard.category;
+
+  question.textContent = currentCard.question;
+
+  answer.textContent = currentCard.answer;
 
   answer.style.display = "none";
 
@@ -66,49 +84,21 @@ document.querySelectorAll("#rating button").forEach((button) => {
   button.addEventListener("click", () => {
     const result = button.dataset.rating;
 
-    //updateCard(result);
-    updateCardProgress(card, result);
+    rateCurrentCard(result);
 
-    nextCard();
+    showNextCard();
   });
 });
 
-function updateCard(result) {
-  const card = cards[currentCardIndex];
-
-  if (result === "wrong") {
-    card.wrong++;
-
-    card.level = 0;
-  }
-
-  if (result === "hard") {
-    card.wrong++;
-  }
-
-  if (result === "good") {
-    card.correct++;
-
-    card.level++;
-  }
-
-  if (result === "easy") {
-    card.correct += 2;
-
-    card.level += 2;
-  }
+function rateCurrentCard(result) {
+  updateCardProgress(currentCard, result);
 
   saveCards(cards);
-}
 
-function nextCard() {
-  currentCardIndex++;
-
-  if (currentCardIndex >= cards.length) {
-    currentCardIndex = 0;
+  // Falsche Karten kommen zurück
+  if (result === "wrong") {
+    learningQueue.push(currentCard);
   }
-
-  showCard();
 }
 
 loadCardData();
