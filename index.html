@@ -1,120 +1,50 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
+  <head>
+    <meta charset="UTF-8" />
 
-<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<meta charset="UTF-8">
+    <title>CodeCards V3</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
 
-<title>CodeCards V3</title>
+  <body>
+    <header>
+      <h1>📚 CodeCards V3</h1>
 
-<link rel="stylesheet" href="css/style.css">
+      <nav>
+        <button>Lernen</button>
 
-</head>
+        <button>Karten</button>
 
+        <button>Statistik</button>
+      </nav>
+    </header>
 
-<body>
+    <main>
+      <section class="card">
+        <div id="category">Kategorie</div>
 
+        <h2 id="question">Frage wird geladen...</h2>
 
-<header>
+        <div id="answer" style="display: none">Antwort</div>
 
-<h1>
-📚 CodeCards V3
-</h1>
+        <button id="showAnswer">Antwort anzeigen</button>
 
+        <div id="rating" style="display: none">
+          <button data-rating="wrong">❌</button>
 
-<nav>
+          <button data-rating="hard">😕</button>
 
-<button>
-Lernen
-</button>
+          <button data-rating="good">🙂</button>
 
-<button>
-Karten
-</button>
+          <button data-rating="easy">🚀</button>
+        </div>
+      </section>
+    </main>
 
-<button>
-Statistik
-</button>
-
-</nav>
-
-
-</header>
-
-
-
-<main>
-
-
-<section class="card">
-
-
-<div id="category">
-Kategorie
-</div>
-
-
-
-<h2 id="question">
-Frage wird geladen...
-</h2>
-
-
-
-<div id="answer" style="display:none;">
-
-Antwort
-
-</div>
-
-
-
-<button id="showAnswer">
-
-Antwort anzeigen
-
-</button>
-
-
-
-<div id="rating" style="display:none;">
-
-
-<button data-rating="wrong">
-❌
-</button>
-
-
-<button data-rating="hard">
-😕
-</button>
-
-
-<button data-rating="good">
-🙂
-</button>
-
-
-<button data-rating="easy">
-🚀
-</button>
-
-
-</div>
-
-
-</section>
-
-
-</main>
-
-
-
-<script src="js/app.js"></script>
-
-
-</body>
-
+    <script type="module" src="js/app.js"></script>
+  </body>
 </html>
