@@ -23,6 +23,7 @@
 📚 CodeCards V3
 </h1>
 
+
 <nav>
 
 <button>
@@ -39,6 +40,7 @@ Statistik
 
 </nav>
 
+
 </header>
 
 
@@ -48,19 +50,59 @@ Statistik
 
 <section class="card">
 
-<h2>
-Willkommen bei CodeCards
+
+<div id="category">
+Kategorie
+</div>
+
+
+
+<h2 id="question">
+Frage wird geladen...
 </h2>
 
 
-<p>
-Deine Lernplattform für Programmierung.
-</p>
+
+<div id="answer" style="display:none;">
+
+Antwort
+
+</div>
 
 
-<button id="startButton">
-Start lernen
+
+<button id="showAnswer">
+
+Antwort anzeigen
+
 </button>
+
+
+
+<div id="rating" style="display:none;">
+
+
+<button data-rating="wrong">
+❌
+</button>
+
+
+<button data-rating="hard">
+😕
+</button>
+
+
+<button data-rating="good">
+🙂
+</button>
+
+
+<button data-rating="easy">
+🚀
+</button>
+
+
+</div>
 
 
 </section>
