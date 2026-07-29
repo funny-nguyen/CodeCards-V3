@@ -1,3 +1,5 @@
+import { addResult, loadStatistics } from "./statistics.js";
+
 import { saveCards, loadCards } from "./storage.js";
 
 import { updateCardProgress, getDueCards } from "./scheduler.js";
@@ -19,6 +21,12 @@ const answer = document.getElementById("answer");
 const showAnswer = document.getElementById("showAnswer");
 
 const rating = document.getElementById("rating");
+
+const correctStat = document.getElementById("correctStat");
+
+const wrongStat = document.getElementById("wrongStat");
+
+const successStat = document.getElementById("successStat");
 
 async function loadCardData() {
   const savedCards = loadCards();
@@ -72,6 +80,15 @@ function showNextCard() {
   showAnswer.style.display = "inline-block";
 }
 
+function updateDashboard() {
+  const stats = loadStatistics();
+  correctStat.textContent = "✅ " + stats.correct;
+  wrongStat.textContent = "❌ " + stats.wrong;
+  const total = stats.correct + stats.wrong;
+  const percent = total === 0 ? 0 : Math.round((stats.correct / total) * 100);
+  successStat.textContent = "⭐ " + percent + " %";
+}
+
 showAnswer.addEventListener("click", () => {
   answer.style.display = "block";
 
@@ -95,6 +112,10 @@ function rateCurrentCard(result) {
 
   saveCards(cards);
 
+  addResult(result);
+
+  updateDashboard();
+
   // Falsche Karten kommen zurück
   if (result === "wrong") {
     learningQueue.push(currentCard);
@@ -102,3 +123,5 @@ function rateCurrentCard(result) {
 }
 
 loadCardData();
+
+updateDashboard();
