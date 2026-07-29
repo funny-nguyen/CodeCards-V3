@@ -66,7 +66,8 @@ document.querySelectorAll("#rating button").forEach((button) => {
   button.addEventListener("click", () => {
     const result = button.dataset.rating;
 
-    updateCard(result);
+    //updateCard(result);
+    updateCardProgress(card, result);
 
     nextCard();
   });
